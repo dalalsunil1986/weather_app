@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:weather_app/ui/util/utils.dart' as util;
 import 'package:http/http.dart' as http;
+import 'package:weather_app/ui/util/utils.dart' as util;
 
 class Klimatic extends StatefulWidget {
   @override
@@ -23,47 +24,19 @@ class _KlimaticState extends State<Klimatic> {
     TimeOfDay _time = TimeOfDay.now();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Weather zaki"),
-        backgroundColor: Colors.blueAccent,
-      ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the Drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text('Settings'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-            ),
-            TextField(
-              controller: _WeatherController,
-              keyboardType: TextInputType.text,
-              decoration: new InputDecoration(
-                  labelText: 'enter City Name',
-                  icon: new Icon(Icons.location_city)),
-            ),
-            IconButton(
-              icon: Icon(Icons.subdirectory_arrow_right),
-              iconSize: 70.0,
-              color: Colors.blue,
-              onPressed: () => handelpress(),
-            )
-          ],
-        ),
-      ),
+      drawer: Theme(
+          data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+          child: sideNav()),
       body: Stack(
         children: <Widget>[
           backgroundpic(_time),
+          AppBar(
+            backgroundColor: Colors.transparent,
+          ),
           Container(
             child: updateTempWidget(util.defaultCity),
             alignment: Alignment.topCenter,
-            margin: EdgeInsets.fromLTRB(110.0, 31.0, 0, 0),
+            margin: EdgeInsets.fromLTRB(95.0, 31.0, 0, 0),
           ),
           Container(
             alignment: Alignment.topCenter,
@@ -79,6 +52,40 @@ class _KlimaticState extends State<Klimatic> {
                   fontSize: 40.0, color: Colors.black, fontFamily: "Armadillo"),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Drawer sideNav() {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: Text(
+              'Settings',
+              style: TextStyle(
+                  color: Colors.white, fontFamily: "Armadillo", fontSize: 50.0),
+            ),
+          ),
+          TextField(
+            controller: _WeatherController,
+            keyboardType: TextInputType.text,
+            cursorColor: Colors.white,
+            style: TextStyle(color: Colors.white),
+            decoration: new InputDecoration(
+
+                labelText: 'enter City Name',
+                fillColor: Colors.white,
+                icon: new Icon(Icons.location_city)),
+          ),
+          IconButton(
+            icon: Icon(Icons.subdirectory_arrow_right),
+            iconSize: 70.0,
+            color: Colors.white,
+            onPressed: () => handelpress(),
+          )
         ],
       ),
     );
